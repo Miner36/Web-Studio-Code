@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Web Studio Code | Python 3</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"> 
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <div class="topbar">
+            <a style="color: whitesmoke; text-decoration: none;">New</a>
+            <a href="javascript:save();" style="color:whitesmoke; text-decoration: none;">Save</a>
+            <a style="color: whitesmoke; text-decoration: none;">Help</a>
+        </div>
+        <div class="thing" id="thing">
+            <p>Web Studio Code </p>
+            </br>
+            Pre Production Do Not Use!
+            V0.0.1-alpha
+            <form>
+                <select id="langform">
+                    <option value="Python">Python</option>
+                    <option value="javascript">Javascript</option>
+
+                </select>
+                <input type="submit" onclick="formsubmit()">
+            </form>
+
+        </div>
+        
+        <!--Start Of Ace Implmentation-->
+        <div id="editor"></div>
+        <script src="src/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="src/theme-chaos.js" type="text/javascript" charset="utf-8"></script>
+        <script src="src/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+        <script src="src/mode-python.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/twilight");
+        </script>
+        <!--End Of Ace Implmentation-->
+        <script>
+            var langthing = document.getElementById("thing");
+            langthing.style.display = "none";
+            var lang = sessionStorage.getItem("lang");
+            if (sessionStorage.getItem("lang") == null){
+            console.log("storage undefined");
+            console.log("Storage Contence " + lang)
+            var langthing = document.getElementById("thing");
+            var editor = document.getElementById("editor")
+            editor.style.display = "none";
+            langthing.style.display = "block";
+            }else {
+            console.log("Storage Found!");
+            var lang = sessionStorage.getItem("lang");
+            console.log("Storage Contence " + lang)
+            if (lang == "javascript"){
+            var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
+            editor.session.setMode(new JavaScriptMode());
+            }else if (lang == "python"){
+            var PythonMode = ace.require("ace/mode/python").Mode;
+            editor.session.setMode(new Python());
+            }
+            editor.style.display = "block";
+            langthing.style.display = "none";
+
+            }
+            function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+            }
+
+            function formsubmit(){
+            var langform = document.getElementById("langform").value;
+            sessionStorage.setItem("lang", langform);
+            console.log("Form Submit!");
+            window.location.reload(true); 
+            }
+            function save(){
+            var save = editor.getValue()
+            alert("Your browser blocks us from saving files with other than .txt extension please rename your file with the correct extension for your langage!")
+            download('Code.txt', save);
+            }
+        </script>
+        <script src="" async defer></script>
+        
+        <style>
+        body {
+        background-color: #383838;
+        font-family: 'Montserrat', sans-serif;
+        }
+        .topbar {
+        text-decoration-color: whitesmoke;
+        text-decoration: none;
+        font-family: 'Montserrat', sans-serif;
+        border-style: solid;
+        border-color: #585858;
+        background-color:#585858;
+        color: whitesmoke;
+        
+        }
+        .thing{
+        color: whitesmoke;
+        font-family: 'Montserrat', sans-serif;
+        border-style: solid;
+        border-color: #4b4b4b;
+        background-color:#4b4b4b;
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        }
+
+        #editor {
+        position: absolute;
+        width: 650px;
+        height: 625px;
+        }
+        
+
+        </style>
+    </body>
+</html>
